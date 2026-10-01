@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "freshcart",
+    "name": "FreshCart",
     "scheme": "freshcart",
     "slug": "freshcart",
     "version": "1.0.0",
@@ -19,6 +19,7 @@
       }
     },
     "web": {
+      "output": "single",
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
