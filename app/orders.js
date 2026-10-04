@@ -9,6 +9,7 @@ import { useCart } from "../store/cartStore";
 import BackButton from "../components/BackButton";
 import PrimaryButton from "../components/PrimaryButton";
 import { COLORS } from "../constants/theme";
+import { useUser } from "../store/userStore";
 
 const FILTERS = ["All", "On Delivery", "Delivered", "Cancelled"];
 
@@ -23,7 +24,9 @@ const formatDate = (iso) =>
 
 export default function Orders() {
   const insets = useSafeAreaInsets();
-  const orders = useOrders((s) => s.orders);
+    const user = useUser((s) => s.user);
+  const allOrders = useOrders((s) => s.orders);
+  const orders = allOrders.filter((o) => o.userEmail === user?.email);
   const updateStatus = useOrders((s) => s.updateStatus);
   const addItem = useCart((s) => s.addItem);
   const [filter, setFilter] = useState("All");

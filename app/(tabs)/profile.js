@@ -25,7 +25,8 @@ export default function Profile() {
   const insets = useSafeAreaInsets();
   const user = useUser((s) => s.user);
   const logout = useUser((s) => s.logout);
-  const orders = useOrders((s) => s.orders);
+  const allOrders = useOrders((s) => s.orders);
+  const orders = allOrders.filter((o) => o.userEmail === user?.email);
   const cartCount = useCart((s) => getCount(s.items));
   const clearCart = useCart((s) => s.clearCart);
   const [notifications, setNotifications] = useState(true);

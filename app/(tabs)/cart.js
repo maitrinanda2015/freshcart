@@ -3,10 +3,11 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCart, getSubtotal } from "../../store/cartStore";
+import { useOrders } from "../../store/orderStore";
+import { useUser } from "../../store/userStore";
 import AddButton from "../../components/AddButton";
 import PrimaryButton from "../../components/PrimaryButton";
 import { COLORS } from "../../constants/theme";
-import { useOrders } from "../../store/orderStore";
 
 const FREE_DELIVERY_ABOVE = 500;
 const DELIVERY_FEE = 40;
@@ -16,14 +17,16 @@ export default function Cart() {
   const items = useCart((s) => s.items);
   const removeItem = useCart((s) => s.removeItem);
   const clearCart = useCart((s) => s.clearCart);
-    const placeOrderInStore = useOrders((s) => s.placeOrder);
+  const placeOrderInStore = useOrders((s) => s.placeOrder);
+  const user = useUser((s) => s.user);
 
   const subtotal = getSubtotal(items);
   const delivery = subtotal >= FREE_DELIVERY_ABOVE ? 0 : DELIVERY_FEE;
   const total = subtotal + delivery;
 
-    const placeOrder = () => {
-    placeOrderInStore({ items, subtotal, delivery, total });
+  const placeOrder = () => {
+    // Save the order with the user's email so it only shows for them
+    placeOrderInStore({ items, subtotal, delivery, total, email: user?.email });
     clearCart();
     router.push({
       pathname: "/success",

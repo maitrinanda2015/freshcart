@@ -7,12 +7,13 @@ export const useOrders = create(
     (set) => ({
       orders: [], // newest first
 
-      placeOrder: ({ items, subtotal, delivery, total }) =>
+            placeOrder: ({ items, subtotal, delivery, total, email }) =>
         set((state) => ({
           orders: [
             {
               id: "FC" + Date.now().toString().slice(-6),
               date: new Date().toISOString(),
+              userEmail: email, // who placed this order
               items,
               subtotal,
               delivery,
